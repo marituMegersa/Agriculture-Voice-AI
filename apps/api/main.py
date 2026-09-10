@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.domain.crop_advisory.router import router as domain_router
 
-app = FastAPI(title="Agriculture-Voice-AI API", description="Python FastAPI Backend for Agriculture-Voice-AI", version="1.0.0")
+app = FastAPI(title="Agriculture & Voice AI Advisory API", description="Multilingual Crop Diagnostic & Soil Advisor (Amharic / Afaan Oromo)", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -16,4 +16,4 @@ app.include_router(domain_router)
 
 @app.get("/health")
 def health():
-    return {"status": "healthy", "service": "Agriculture-Voice-AI"}
+    return {"status": "healthy", "service": "Agriculture & Voice AI Advisory"}
