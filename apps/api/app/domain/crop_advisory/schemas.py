@@ -1,21 +1,18 @@
 from pydantic import BaseModel, Field
-from typing import List, Dict, Any, Optional
+from typing import Optional
 from datetime import datetime
 
-class CropAdvisoryRequest(BaseModel):
+class VoiceDiagnosticRequest(BaseModel):
+    farmer_id: str = Field(..., example="FARMER-8831")
+    crop_type: str = Field(..., example="Wheat")
+    voice_transcript: str = Field(..., example="እህሌ ቢጫ ዝገት ምልክት አሳይቷል")
+    language: str = Field("Amharic", example="Amharic")
 
+class VoiceDiagnosticResponse(BaseModel):
     farmer_id: str
     crop_type: str
-    language: Optional[str] = "am"
-    symptom_description: str
-
-
-class CropAdvisoryResponse(BaseModel):
-    id: str
-    status: str = "COMPLETED"
-    summary: str
-    confidence_score: float = 0.98
-    created_at: datetime
-
-    class Config:
-        from_attributes = True
+    diagnosis: str
+    confidence: float
+    recommended_treatment: str
+    recommended_fertilizer: str
+    diagnosed_at: datetime = Field(default_factory=datetime.utcnow)
