@@ -1,46 +1,111 @@
-# Agriculture & Voice AI Advisory System 🌾🗣️
+# Agriculture & Voice AI Advisory System
 
-[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![Languages](https://img.shields.io/badge/Languages-Amharic%20%7C%20Afaan%20Oromo-teal?style=for-the-badge)]()
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-009688.svg?style=flat&logo=fastapi)](https://fastapi.tiangolo.com)
+[![React](https://img.shields.io/badge/React-18-61DAFB.svg?style=flat&logo=react)](https://react.dev)
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB.svg?style=flat&logo=python)](https://python.org)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-**Multilingual Voice-Enabled Speech-to-Text Crop Diagnostic & Soil Advisor for Smallholder Farmers**
+> **Multilingual Voice Diagnostics & Localized Crop Health Advisory**
 
----
-
-## 🌟 Key Features
-
-- **Voice Audio Intake**: Speech-to-Text processing for local languages (Amharic & Afaan Oromo).
-- **Crop Disease Diagnostic Engine**: Identifies yellow rust, nitrogen deficiency, and blight from symptom descriptions.
-- **Soil & Irrigation Advisory**: Computes optimal Urea/DAP fertilizer dosage and watering schedules.
-- **Localized Audio Feedback**: Generates spoken diagnostic summaries for frontline agricultural extension agents.
+A voice-enabled agricultural advisory platform built for smallholder farmers. Supports speech inputs in Ethiopian national languages (Amharic/Oromo), performs automated crop disease diagnosis, and delivers tailored fertilizer/treatment recommendations.
 
 ---
 
-## 📂 Monorepo Structure
+## 🏛️ Clean Architecture Overview
 
-```text
-Agriculture-Voice-AI/
-├── apps/
-│   ├── api/                     # Python 3.12 FastAPI Backend
-│   │   ├── app/domain/crop_advisory/
-│   │   │   ├── models.py        # Farmer & Diagnostic ORM Models
-│   │   │   ├── schemas.py       # Pydantic v2 Voice Intake Schemas
-│   │   │   ├── service.py       # Disease Diagnostic Engine
-│   │   │   └── router.py        # REST Endpoints
-│   │   └── main.py
-│   └── web/                     # React 18 Voice Dashboard
-├── docker-compose.yml
-└── README.md
+This repository is built following **Clean Layered Architecture** standards:
+
+```
+apps/api/app/
+├── api/          # Thin REST routers & Dependency Injection (deps.py)
+├── schemas/      # Pydantic v2 validation DTOs (Request / Response)
+├── models/       # SQLAlchemy 2.0 Async ORM models & Base declarative metadata
+├── repositories/ # Dedicated async database access queries ONLY
+├── services/     # Pure business logic, domain rules, & AI orchestrators
+├── core/         # Settings (pydantic-settings), Async Database, JWT Security, & Exceptions
+└── utils/        # Reusable helper utilities
 ```
 
 ---
 
-## 🚀 Quick Start
+## ✨ Key Features
+
+- **Voice Advisory Engine**:  Amharic & English transcript analysis for crop diagnostics
+- **Treatment Recommender**:  Disease-specific fungicide and fertilizer application protocols
+- **Historical Diagnostics Log**:  Async database persistence of farmer query history
+- **Farmer Portal UI**:  React 18 TypeScript dashboard with audio playback & diagnostic charts
+
+---
+
+## 🛠️ Tech Stack
+
+- **Backend**: Python 3.12, FastAPI 0.110+, Async SQLAlchemy 2.0+, Pydantic v2
+- **Frontend**: React 18, TypeScript, Tailwind CSS, Lucide Icons
+- **Database & Cache**: PostgreSQL (Asyncpg), Redis, Elasticsearch
+- **AI & RAG**: vLLM / Ollama, LangChain, LangGraph State Graphs
+- **DevOps & Testing**: Docker, Docker Compose, Pytest, Pytest-Asyncio
+
+---
+
+## 🚀 Quick Start Guide
+
+### 1. Prerequisites
+- Docker & Docker Compose
+- Python 3.12+
+- Node.js 20+
+
+### 2. Backend Setup
 ```bash
-# Backend
-cd apps/api && pip install -r requirements.txt && python main.py
+# Navigate to API directory
+cd apps/api
 
-# Frontend
-cd apps/web && npm install && npm run dev
+# Install dependencies
+pip install -r requirements.txt
+
+# Run database migrations & start FastAPI app
+python main.py
+# API running at http://localhost:8000 (Swagger docs at http://localhost:8000/docs)
 ```
+
+### 3. Frontend Setup
+```bash
+# Navigate to Web app directory
+cd apps/web
+
+# Install dependencies & start dev server
+npm install
+npm run dev
+# Web app running at http://localhost:3000
+```
+
+### 4. Running via Docker Compose
+```bash
+docker-compose up --build
+```
+
+---
+
+## 🧪 Testing
+
+Run unit & integration tests using `pytest`:
+```bash
+cd apps/api
+pytest tests/ -v
+```
+
+---
+
+## 📜 API Documentation
+
+Once started, interactive API documentation is available at:
+- **Swagger UI**: `http://localhost:8000/docs`
+- **ReDoc**: `http://localhost:8000/redoc`
+
+**Primary Endpoint Sample**:
+`POST /api/v1/crop_advisory/diagnose`
+
+---
+
+## 👤 Author & Maintainer
+
+Maintained with ❤️ by **[marituMegersa](https://github.com/marituMegersa)**.
