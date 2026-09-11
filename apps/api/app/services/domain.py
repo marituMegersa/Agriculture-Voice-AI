@@ -41,3 +41,5 @@ class CropAdvisoryService:
 
     async def list_diagnostics(self, skip: int = 0, limit: int = 50) -> List[CropDiagnosticRecord]:
         return await self.repo.get_multi(skip=skip, limit=limit)
+
+# Business logic & AI engine orchestrator
