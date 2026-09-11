@@ -11,4 +11,4 @@ class CropDiagnosticRecord(Base):
     voice_transcript = Column(String, nullable=False)
     language = Column(String, default="Amharic")
     diagnosis = Column(String, nullable=False)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow, index=True)
