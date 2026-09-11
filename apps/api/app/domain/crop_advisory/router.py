@@ -1,15 +1,14 @@
-from fastapi import APIRouter, Depends, status, Query
-from sqlalchemy.orm import Session
-from app.db.session import get_db
-from app.domain.crop_advisory.schemas import VoiceDiagnosticRequest, VoiceDiagnosticResponse
-from app.domain.crop_advisory.service import CropAdvisoryService
+from fastapi import APIRouter, Depends, status
+from sqlalchemy.ext.asyncio import AsyncSession
+from app.db.session import get_async_db
+from app.domain.crop_advisory.service import CropAdvisoryLangGraphService
 
-router = APIRouter(prefix="/api/v1/crop_advisory", tags=["Crop Advisory & Soil Diagnostics"])
+router = APIRouter(prefix="/api/v1/crop_advisory", tags=["Agriculture & Voice AI Advisory System"])
 
-@router.post("/diagnose", response_model=VoiceDiagnosticResponse, status_code=status.HTTP_201_CREATED)
-def diagnose_crop_voice(req: VoiceDiagnosticRequest, db: Session = Depends(get_db)):
-    return CropAdvisoryService.diagnose_and_store(db, req)
+@router.get("/healthz")
+async def async_health_check():
+    return {"status": "healthy", "architecture": "Async SQLAlchemy + LangGraph + Redis + Elasticsearch"}
 
-@router.get("/history")
-def list_diagnostics(skip: int = Query(0, ge=0), limit: int = Query(50, le=100), db: Session = Depends(get_db)):
-    return CropAdvisoryService.list_diagnostics(db, skip=skip, limit=limit)
+@router.post("/agentic-eval")
+async def run_agentic_eval(payload: dict, db: AsyncSession = Depends(get_async_db)):
+    return await CropAdvisoryLangGraphService.evaluate_async(db, payload)
